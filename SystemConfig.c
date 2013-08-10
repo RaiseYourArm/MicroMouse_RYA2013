@@ -7,7 +7,6 @@
 //*****************************************************************************
 extern void ADCIsr(void);				//ADC Interrupt Routine - Used for 
 										//read IR Detectors value
-extern void NetworkIntHandler(void);	//Network-Interface Interrupt Routine
 extern void Timer4ISR(void);			//Timer 4 - used to control IR transmitters - detectors
 extern void Timer5ISR(void);			//Timer 5 - used for PID control
 extern void EncRightISR(void);			//Encoder
@@ -17,8 +16,6 @@ extern void TimerTickBatt(void);
 extern void ButtonsISR(void);			//User-buttons Interrupt Routine
 
 extern PIDType PIDVerLeft, PIDVerRight, PIDPosLeft, PIDPosRight, PIDWallRight, PIDWallLeft, PIDWallFL, PIDWallFR;
-
-UARTType Network;
 
 static uint8_t BuzzerEnable = 0;
 uint32_t PIDVerLoop = 0;

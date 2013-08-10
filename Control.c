@@ -10,7 +10,6 @@ extern int32_t PosLeftCount, PosRightCount;
 extern int16_t avrSpeed;
 extern int8_t BasePoint[];
 extern int8_t Direction;
-extern uint8_t Maze[33][33];
 extern int32_t ADCResOn[], ADCResOff[], ADCResDelta[];
 
 uint8_t Array[3];
