@@ -12,6 +12,6 @@ void SetPWM(uint32_t ulBaseAddr, uint32_t ulTimer, uint32_t ulFrequency, int32_t
 void ConfigEncoder(void);
 void ConfigIRTransmitter(void);
 void ConfigBattSense(void);
-void ConfigButtons(void (*Button1ISR)(void), void (*Button2ISR)(void));
+void ConfigButtons(void (*Button1ISR)(void), void Button2ISR(void));
 
 #endif /* SYSTEMCONFIG_H_ */

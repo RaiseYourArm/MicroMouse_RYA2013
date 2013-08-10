@@ -150,9 +150,7 @@ void UARTPuts(uint32_t UART_Base, const char *s)
 		}
 #endif
 	}
-#ifdef NETWORK_ENABLE
 	CheckNetworkFrame(1);
-#endif
 }
 
 
@@ -202,9 +200,7 @@ void UARTPutn(uint32_t UART_Base, long Num)
 			temp /= 10;
 		}
 	}
-#ifdef NETWORK_ENABLE
 	CheckNetworkFrame(1);
-#endif
 }
 
 void CheckNetworkFrame(uint8_t reset)

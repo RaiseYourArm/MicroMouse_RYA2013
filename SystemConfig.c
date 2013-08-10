@@ -203,7 +203,7 @@ void ConfigBattSense(void)
 	TimerEnable(TIMER3_BASE, TIMER_A);
 }
 
-void ConfigButtons(void (*Button1ISR)(void), void (*Button2ISR)(void))
+void ConfigButtons(void (*Button1ISR)(void), void Button2ISR(void))
 {
 	v_USRBT1 = Button1ISR;
 	v_USRBT2 = Button2ISR;

@@ -1,6 +1,5 @@
 #include "include.h"
 
-extern UARTType Network;
 extern int8_t x, y;
 extern uint8_t ControlFlag;
 extern int32_t BuzzerTick;
@@ -13,7 +12,6 @@ extern int8_t BasePoint[];
 extern int8_t Direction;
 extern uint8_t Maze[33][33];
 extern int32_t ADCResOn[], ADCResOff[], ADCResDelta[];
-
 
 uint8_t Array[3];
 
@@ -62,9 +60,6 @@ void PrintDir(uint8_t Direction)
 uint8_t TurnRight(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32_t NumPulse)
 {
 	uint32_t EncTemp, avrSpeedtemp;
-	uint8_t DirTemp;
-
-	DirTemp = GetAvailDir();
 
 	BuzzerTick = 100;
 
@@ -85,14 +80,7 @@ uint8_t TurnRight(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint3
 	PIDSpeedSet(&PIDVerLeft, SpeedLeft);
 	PIDSpeedSet(&PIDVerRight, SpeedRight);
 
-	if (DirTemp & (AVAIL_FR | AVAIL_FL))
-	{
-		while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(AvailDirection & (AVAIL_FR | AVAIL_FL))));
-	}
-	else
-	{
-		while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(ADCResDelta[2] / 5 < PIDWallRight.SetPoint)));
-	}
+	while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(AvailDirection & (AVAIL_FR | AVAIL_FL))));
 
 	BuzzerTick = 100;
 
@@ -102,16 +90,13 @@ uint8_t TurnRight(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint3
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_AUTO_SELECT;
+	FollowSel = FOLLOW_LEFT;
 	return (0);
 }
 
 uint8_t TurnLeft(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32_t NumPulse)
 {
 	uint32_t EncTemp, avrSpeedtemp;
-	uint8_t DirTemp;
-
-	DirTemp = GetAvailDir();
 
 	BuzzerTick = 100;
 
@@ -132,14 +117,7 @@ uint8_t TurnLeft(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32
 	PIDSpeedSet(&PIDVerLeft, SpeedLeft);
 	PIDSpeedSet(&PIDVerRight, SpeedRight);
 
-	if (DirTemp & (AVAIL_FR | AVAIL_FL))
-	{
-		while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(AvailDirection & (AVAIL_FR | AVAIL_FL))));
-	}
-	else
-	{
-		while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(ADCResDelta[1] / 5 < PIDWallLeft.SetPoint)));
-	}
+	while ((abs(PosLeftCount) + abs(PosRightCount) < NumPulse)||(!(AvailDirection & (AVAIL_FR | AVAIL_FL))));
 
 	BuzzerTick = 100;
 
@@ -149,7 +127,7 @@ uint8_t TurnLeft(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_AUTO_SELECT;
+	FollowSel = FOLLOW_LEFT;
 	return (0);
 }
 
@@ -193,7 +171,7 @@ uint8_t TurnBack(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_AUTO_SELECT;
+	FollowSel = FOLLOW_LEFT;
 	return (0);
 }
 

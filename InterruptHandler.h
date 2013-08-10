@@ -6,7 +6,6 @@ void EncLeftISR(void);
 void ButtonsISR(void);
 void Timer5ISR(void);
 void Timer4ISR(void);
-void NetworkIntHandler(void);
 void ADCIsr(void);
 uint8_t GetAvailDir(void);
 void BattSenseISR(void);
