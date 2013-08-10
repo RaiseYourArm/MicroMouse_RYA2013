@@ -1,10 +1,3 @@
-/*
- * include.h
- *
- *  Created on: Aug 1, 2013
- *      Author: Admin
- */
-
 #ifndef INCLUDE_H_
 #define INCLUDE_H_
 

@@ -12,8 +12,6 @@ extern int8_t BasePoint[];
 extern int8_t Direction;
 extern int32_t ADCResOn[], ADCResOff[], ADCResDelta[];
 
-uint8_t Array[3];
-
 uint8_t PIDFlag = 0;
 uint8_t FollowSel = FOLLOW_DISABLE;
 

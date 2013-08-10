@@ -204,19 +204,19 @@ void ADCIsr(void)
 uint8_t GetAvailDir(void)
 {
 	uint8_t AvailDir = 0;
-	if (ADCResDelta[0] / 5 > PIDWallFL.SetPoint)
+	if (ADCResDelta[0] > PIDWallFL.SetPoint)
 	{
 		AvailDir |= AVAIL_FL;
 	}
-	if (ADCResDelta[1] / 5 > MaxIRBase[1])
+	if (ADCResDelta[1] > MaxIRBase[1])
 	{
 		AvailDir |= AVAIL_LEFT;
 	}
-	if (ADCResDelta[2] / 5 > MaxIRBase[2])
+	if (ADCResDelta[2] > MaxIRBase[2])
 	{
 		AvailDir |= AVAIL_RIGHT;
 	}
-	if (ADCResDelta[3] / 5 > PIDWallFR.SetPoint)
+	if (ADCResDelta[3] > PIDWallFR.SetPoint)
 	{
 		AvailDir |= AVAIL_FR;
 	}

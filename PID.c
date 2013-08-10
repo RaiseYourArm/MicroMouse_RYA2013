@@ -57,13 +57,13 @@ void PIDWallCalc(PIDType *p_PIDWall, int32_t Distance, int32_t MaxResponse)
 	(*p_PIDWall).pPart = (*p_PIDWall).Kp * (*p_PIDWall).PIDError;
 	(*p_PIDWall).iPart += (*p_PIDWall).Ki * (*p_PIDWall).PIDError;
 	(*p_PIDWall).dPart = (*p_PIDWall).Kd * ((*p_PIDWall).PIDError - (*p_PIDWall).PIDErrorTemp1);
-
+	/*
 	//Uncomment to enable iPart-limit
 	if ((*p_PIDWall).iPart > 40)
 		(*p_PIDWall).iPart = 40;
 	else if ((*p_PIDWall).iPart < -40)
 		(*p_PIDWall).iPart = -40;
-
+	*/
 	(*p_PIDWall).PIDResult = (*p_PIDWall).pPart + (*p_PIDWall).iPart + (*p_PIDWall).dPart;
 	if ((*p_PIDWall).PIDResult > MaxResponse)
 		(*p_PIDWall).PIDResult = (double)(MaxResponse);
@@ -93,8 +93,8 @@ void PIDVerCalc(PIDType *p_PIDVer, int32_t *Speed, int32_t MaxResponse)
 void WallFollow(uint8_t AvailDirection)
 {
 	int32_t DistanceIR[2];
-	DistanceIR[0] = ADCResDelta[1] / 5;
-	DistanceIR[1] = ADCResDelta[2] / 5;
+	DistanceIR[0] = ADCResDelta[1];
+	DistanceIR[1] = ADCResDelta[2];
 
 	switch(FollowSel)
 	{

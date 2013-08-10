@@ -1,9 +1,3 @@
-/*
- * MYUART.c
- *
- *  Created on: Apr 18, 2013
- *      Author: Admin
- */
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>

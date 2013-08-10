@@ -1,9 +1,3 @@
-/*
- * EEPROM.c
- *
- *  Created on: Aug 6, 2013
- *      Author: Admin
- */
 #include "include.h"
 #include "driverlib/eeprom.h"
 

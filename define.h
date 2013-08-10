@@ -8,32 +8,18 @@
 #ifndef DEFINE_H_
 #define DEFINE_H_
 
-#define DEBUG_WALL_FOLLOW
-//#define TEST_ENCODER
-//#define TEST_IR
-//#define SET_PID
-//#define PID_SPEED
-//#define PID_WALL
-//#define PID_POSITION
-//#define TEST_AVAIL_DIR
-
-//#define SAVE_EEPROM
-
 #define FOLLOW_LEFT			0x01
 #define FOLLOW_RIGHT		0x02
 #define FOLLOW_DISABLE		0x04
 #define FOLLOW_AUTO_SELECT	0x08
 
-#define FrameLength		sizeof(str_Network_Frame)
-
 #define DEFAULT		20000	//H-Bridge Freq (Hz)
 
+#define IDLE		0x00
 #define STOP		0x01
-#define IDLE		0
 #define TURNRIGHT	0x02
-#define STRAIGHT	0x08
-//#define BACK		0x04
 #define TURNLEFT	0x04
+#define STRAIGHT	0x08
 
 #define AVAIL_LEFT		0x01
 #define AVAIL_FL		0x02
@@ -43,8 +29,6 @@
 
 #define LEFT		0x10
 #define RIGHT		0x20
-//#define LEFT_BACK	0x40
-//#define RIGHT_BACK	0x50
 #define BACK		0x40
 #define FORWARD		0x80
 
