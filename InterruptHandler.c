@@ -138,6 +138,17 @@ void Timer5ISR(void)
 	static unsigned char NumSpdSet = 0;
 	TimerIntClear(TIMER5_BASE, TIMER_TIMA_TIMEOUT);
 
+	if (PIDVerLeft.Enable)
+	{
+		PIDVerCalc(&PIDVerLeft, &EncLeftCount, 90);
+		SetPWM(TIMER1_BASE, TIMER_A, DEFAULT, (long)PIDVerLeft.PIDResult);
+	}
+	if (PIDVerRight.Enable)
+	{
+		PIDVerCalc(&PIDVerRight, &EncRightCount, 90);
+		SetPWM(TIMER0_BASE, TIMER_A, DEFAULT, (long)PIDVerRight.PIDResult);
+	}
+	
 	NumSpdSet++;
 
 	if (NumSpdSet == PIDVerLoop)	//PID position
@@ -160,17 +171,6 @@ void Timer5ISR(void)
 		{
 			PIDFlag = 0;
 		}
-	}
-
-	if (PIDVerLeft.Enable)
-	{
-		PIDVerCalc(&PIDVerLeft, &EncLeftCount, 90);
-		SetPWM(TIMER1_BASE, TIMER_A, DEFAULT, (long)PIDVerLeft.PIDResult);
-	}
-	if (PIDVerRight.Enable)
-	{
-		PIDVerCalc(&PIDVerRight, &EncRightCount, 90);
-		SetPWM(TIMER0_BASE, TIMER_A, DEFAULT, (long)PIDVerRight.PIDResult);
 	}
 }
 
