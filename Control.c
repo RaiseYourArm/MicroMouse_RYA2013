@@ -1,4 +1,28 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// control.c - Control the robot's action.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
+
+//*****************************************************************************
+//
+//! \addtogroup Control_api
+//! @{
+//
+//*****************************************************************************
+
 #include "include.h"
+
+//*****************************************************************************
+//
+// Prototypes for the APIs.
+//
+//*****************************************************************************
 
 extern int8_t x, y;
 extern uint8_t ControlFlag;
@@ -15,17 +39,45 @@ extern int32_t ADCResOn[], ADCResOff[], ADCResDelta[];
 uint8_t PIDFlag = 0;
 uint8_t FollowSel = FOLLOW_DISABLE;
 
+//*****************************************************************************
+//
+//! Enable Boost board in the pin PB2
+//!
+//!
+//! \param None
+//!
+//! \return None
+//
+//*****************************************************************************
+
 void BoostEnable(void)
 {
 	GPIOPinWrite(ENABLE_PORT, BOOST_EN_PIN, BOOST_EN_PIN);
 }
 
+//*****************************************************************************
+//
+//! Disables Boost board in the pin PB2
+//!
+//! \param None
+//!
+//! \return None.
+//
+//*****************************************************************************
 void BoostDisable(void)
 {
 	GPIOPinWrite(ENABLE_PORT, BOOST_EN_PIN, 0);
 }
 
-
+//*****************************************************************************
+//
+//! Print the direction of the Micro Mouse by Uart0
+//!
+//! \param Direction is the direction of robot 0 1 2 or 3
+//!
+//! \return None.
+//
+//*****************************************************************************
 void PrintDir(uint8_t Direction)
 {
 	switch(Direction)
@@ -54,6 +106,20 @@ void PrintDir(uint8_t Direction)
 
 }
 
+//*****************************************************************************
+//
+//! Control two motor to make robot turn right 90 degree
+//!
+//! \param DeltaEnc is the distance robot will go straight before turn right
+//!, the robot will stand between the next cell of maze.
+//! \param SpeedLeft is the speed of left motor.
+//! \param SpeedRight is the speed of left motor.
+//! \param NumPulse is the total pulse of two encoder after turn
+//!
+//!
+//! \return 0 (zero).
+//
+//*****************************************************************************
 uint8_t TurnRight(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32_t NumPulse)
 {
 	uint32_t EncTemp, avrSpeedtemp;
@@ -87,9 +153,24 @@ uint8_t TurnRight(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint3
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_LEFT;
+	FollowSel = FOLLOW_AUTO_SELECT;
 	return (0);
 }
+
+//*****************************************************************************
+//
+//! Control two motor to make robot turn left 90 degree
+//!
+//! \param DeltaEnc is the distance robot will go straight before turn right
+//!, the robot will stand between the next cell of maze.
+//! \param SpeedLeft is the speed of left motor.
+//! \param SpeedRight is the speed of left motor.
+//! \param NumPulse is the total pulse of two encoder after turn
+//!
+//!
+//! \return 0 (zero).
+//
+//*****************************************************************************
 
 uint8_t TurnLeft(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32_t NumPulse)
 {
@@ -124,9 +205,24 @@ uint8_t TurnLeft(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_LEFT;
+	FollowSel = FOLLOW_AUTO_SELECT;
 	return (0);
 }
+
+//*****************************************************************************
+//
+//! Control two motor to make robot turn back 180 degree.
+//!
+//! \param DeltaEnc is the distance robot will go straight before turn right
+//!, the robot will stand between the next cell of maze.
+//! \param SpeedLeft is the speed of left motor.
+//! \param SpeedRight is the speed of left motor.
+//! \param NumPulse is the total pulse of two encoder after turn
+//!
+//!
+//! \return 0 (zero).
+//
+//*****************************************************************************
 
 uint8_t TurnBack(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32_t NumPulse)
 {
@@ -168,15 +264,37 @@ uint8_t TurnBack(int32_t DeltaEnc, int32_t SpeedLeft, int32_t SpeedRight, uint32
 	PIDWallLeft.PIDResult = 0;
 	PIDWallRight.iPart = 0;
 	PIDWallRight.PIDResult = 0;
-	FollowSel = FOLLOW_LEFT;
+	FollowSel = FOLLOW_AUTO_SELECT;
 	return (0);
 }
 
+//*****************************************************************************
+//
+//! Clear the  total pulse counter of two encoder
+//!
+//! \param None
+//!
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ClearPosition(void)
 {
 	PosLeftCount = 0;
 	PosRightCount = 0;
 }
+
+//*****************************************************************************
+//
+//! Update the base point of maze, usually update after robot turn left, right
+//!
+//! \param x the horizontal coordinates.
+//! \param y the vertical coordinates.
+//!
+//!
+//! \return None.
+//
+//*****************************************************************************
 
 void UpdateBasePoint(int8_t x, int8_t y)
 {
@@ -184,9 +302,22 @@ void UpdateBasePoint(int8_t x, int8_t y)
 	BasePoint[1] = y;
 }
 
+//*****************************************************************************
+//
+//! Stop the robot by disable 2 H bridge.
+//!
+//! \param x the horizontal coordinates.
+//! \param y the vertical coordinates.
+//!
+//!
+//! \return None.
+//
+//*****************************************************************************
+
 void Stop(void)
 {
 	BuzzerTick = 2000;
 	ControlFlag = 1;
 	GPIOPinWrite(ENABLE_PORT, ENA_LEFT_PIN | ENA_RIGHT_PIN, 0x00);
 }
+

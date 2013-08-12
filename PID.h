@@ -1,6 +1,21 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// MYUART.h - Prototypes for InterruptHandler functions.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 #ifndef PID_H_
 #define PID_H_
 
+//*****************************************************************************
+//
+// Structure of all PID type: speed, position, wall...
+//
+//*****************************************************************************
 typedef struct
 {
 		double Kp;
@@ -18,6 +33,11 @@ typedef struct
 		uint8_t Enable;
 } PIDType;
 
+//*****************************************************************************
+//
+// Prototypes for the APIs.
+//
+//*****************************************************************************
 void PIDSpeedSet(PIDType *p_PIDVer, int32_t SpeedSet);
 void PIDPositionSet(PIDType *p_PID, int32_t SetPoint);
 void PIDPosCalc(PIDType *p_PIDPos, int32_t Position, int32_t MaxResponse);

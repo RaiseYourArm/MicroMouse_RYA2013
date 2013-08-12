@@ -1,6 +1,21 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// InterruptHandler.h - Prototypes for InterruptHandler functions.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 #ifndef INTERRUPTHANDLER_H_
 #define INTERRUPTHANDLER_H_
 
+//*****************************************************************************
+//
+// Prototypes for the APIs.
+//
+//*****************************************************************************
 void EncRightISR(void);
 void EncLeftISR(void);
 void ButtonsISR(void);

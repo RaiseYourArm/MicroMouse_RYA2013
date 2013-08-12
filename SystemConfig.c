@@ -1,3 +1,21 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// SystemConfig.c - config system: timer, gpio, adc, PWM, ...
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
+
+//*****************************************************************************
+//
+//! \addtogroup SystemConfig_api
+//! @{
+//
+//*****************************************************************************
+
 #include "include.h"
 #include "inc/hw_gpio.h"
 //*****************************************************************************
@@ -20,8 +38,24 @@ extern PIDType PIDVerLeft, PIDVerRight, PIDPosLeft, PIDPosRight, PIDWallRight, P
 static uint8_t BuzzerEnable = 0;
 uint32_t PIDVerLoop = 0;
 
+//*****************************************************************************
+//
+//! Two buttons
+//
+//*****************************************************************************
 void (*v_USRBT1)(void), (*v_USRBT2)(void);
 
+//*****************************************************************************
+//
+//! Config timer 5: use for PID
+//!
+//! \param TimerIntervalms: is the period of timer (ms) use for PIDverlocity
+//! \param PIDVerlocityLoop: the period of timer (ms) use for PIDverlocity =
+//!                                        TimerIntervalms*PIDVerlocityLoop
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigPIDTimer(uint32_t TimerIntervalms, uint32_t PIDVerlocityLoop)
 {
 	PIDVerLoop = PIDVerlocityLoop;
@@ -35,6 +69,15 @@ void ConfigPIDTimer(uint32_t TimerIntervalms, uint32_t PIDVerlocityLoop)
 	TimerEnable(TIMER5_BASE, TIMER_A);
 }
 
+//*****************************************************************************
+//
+//! Config timer 4: tiemr use for control IR led (ADC) Interval: 1ms
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigADCTimer(void)
 {
 	//Wall Follow
@@ -48,6 +91,16 @@ void ConfigADCTimer(void)
 	TimerEnable(TIMER4_BASE, TIMER_A);
 }
 
+//*****************************************************************************
+//
+//! Config System: System clock, config enable port base and enable pin
+//! use for control power module, H bridge.
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigSystem(void)
 {
 	// Config clock
@@ -62,6 +115,18 @@ void ConfigSystem(void)
 	GPIOPinWrite(ENABLE_PORT, ENA_LEFT_PIN | ENA_RIGHT_PIN, 0x00);
 }
 
+//*****************************************************************************
+//
+//! Config PWM: PWM for two H bridge at 20 000 (Hz)
+//! Timer 0 (timer A) use for the first motor PB6.
+//! Timer 1 (timer A) use for the second motor PB4.
+//! Timer 1 (timer B) use for buzzer if buzzer is enabled before.
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigPWM(void)
 {
 	// Configure PF1 as T0CCP1
@@ -105,11 +170,30 @@ void ConfigPWM(void)
 		TimerEnable(TIMER1_BASE, TIMER_A);
 }
 
+//*****************************************************************************
+//
+//! Config buzzer in PF3. Call before ConfigPWM() function
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void EnableBuzzer(void)		//Call before ConfigPWM() function
 {
 	BuzzerEnable = 1;
 }
 
+//*****************************************************************************
+//
+//! Config ADC0: use for 4 IRDetectors, sample follow step 1 2 3 4 (port E)
+//! Over sample x32 (Hardware)
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigIRDetectors(void)
 {
  	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
@@ -127,6 +211,18 @@ void ConfigIRDetectors(void)
  	ADCIntEnable(ADC0_BASE, 2);
 }
 
+//*****************************************************************************
+//
+//! Set duty cycle for PWM at frequency "ulFrequency"
+//!
+//! \param ulBaseAddr : timer 0 or 1 ( motor left or right)
+//! \param ulTimer : timer A or B (A for motor)
+//! \param ulFrequency: recommend use DEFAULT frequency 20 000.
+//! \param ucDutyCycle: 0-90% (to protect H bridge, not use >90% duty  cycle)
+//!
+//! \return None.
+//
+//*****************************************************************************
 void SetPWM(uint32_t ulBaseAddr, uint32_t ulTimer, uint32_t ulFrequency, int32_t ucDutyCycle)
 {
 	uint32_t ulPeriod;
@@ -139,11 +235,21 @@ void SetPWM(uint32_t ulBaseAddr, uint32_t ulTimer, uint32_t ulFrequency, int32_t
 	TimerMatchSet(ulBaseAddr, ulTimer, (100 + ucDutyCycle) * ulPeriod / 200 - 1);
 }
 
+//*****************************************************************************
+//
+//! Config Encoder: PC5 (GPIO interrupt) and PC6 for encoder 1
+//!                 PD6 (GPIO interrupt) and PD7 for encoder 2
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigEncoder(void)
 {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-    HWREG(GPIO_PORTD_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;
-    HWREG(GPIO_PORTD_BASE + GPIO_O_CR) = 0x80;
+    HWREG(GPIO_PORTD_BASE + GPIO_O_LOCK) = GPIO_LOCK_KEY;// PD7 is special pin
+    HWREG(GPIO_PORTD_BASE + GPIO_O_CR) = 0x80;// must config this to use PD7
     HWREG(GPIO_PORTD_BASE + GPIO_O_AFSEL) &= ~0x80;
 
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
@@ -169,6 +275,16 @@ void ConfigEncoder(void)
 	GPIOIntClear(GPIO_PORTD_BASE, GPIO_PIN_6);
 }
 
+//*****************************************************************************
+//
+//! Config IRTransmitter led: port A, pin 4 5 6 7
+//!                                   led 1 2 3 4
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigIRTransmitter(void)
 {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
@@ -176,6 +292,15 @@ void ConfigIRTransmitter(void)
 	GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7, 0x00);
 }
 
+//*****************************************************************************
+//
+//! Config ADC1: use for detecting low battery at pin PD3.
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigBattSense(void)
 {
  	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
@@ -200,6 +325,16 @@ void ConfigBattSense(void)
 	TimerEnable(TIMER3_BASE, TIMER_A);
 }
 
+//*****************************************************************************
+//
+//! Config Button: two button (PA2 PA3) in main board, FALLING_EDGE interrupt
+//! Interrupt Service Routine is ButtonsISR
+//!
+//! \param None.
+//!
+//! \return None.
+//
+//*****************************************************************************
 void ConfigButtons(void (*Button1ISR)(void), void Button2ISR(void))
 {
 	v_USRBT1 = Button1ISR;

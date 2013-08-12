@@ -1,3 +1,13 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// MYUART.c - All UART function
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -11,6 +21,22 @@
 #include "driverlib/uart.h"
 #include "MYUART.h"
 
+//*****************************************************************************
+//
+//! Config Uart: some characteristic:
+//!       PortName
+//!		  BaudRate
+//!		  DataBits
+//!		  Parity
+//!		  StopBits
+//!		 (*ISR)(): name of UART interrupt function
+//!
+//!
+//! \param pointer of Uart characteristic structure.
+//!
+//! \return ERROR_NONE: 0
+//
+//*****************************************************************************
 unsigned char ConfigUART(UARTType *UART)
 {
 	unsigned long ulSet = 0;
@@ -132,6 +158,17 @@ unsigned char ConfigUART(UARTType *UART)
   	return(ERROR_NONE);
 }
 
+//*****************************************************************************
+//
+//! Print a string to Uart
+//!
+//!
+//! \param UART_Base.
+//! \param *s name of string.
+//!
+//! \return None
+//
+//*****************************************************************************
 void UARTPuts(uint32_t UART_Base, const char *s)
 {
 	while(*s)
@@ -149,7 +186,17 @@ void UARTPuts(uint32_t UART_Base, const char *s)
 #endif
 }
 
-
+//*****************************************************************************
+//
+//! Print a number to Uart
+//!
+//!
+//! \param UART_Base.
+//! \param Num number you want to print.
+//!
+//! \return None
+//
+//*****************************************************************************
 void UARTPutn(uint32_t UART_Base, long Num)
 {
 	unsigned long temp = 1;
@@ -201,6 +248,17 @@ void UARTPutn(uint32_t UART_Base, long Num)
 #endif
 }
 
+//*****************************************************************************
+//
+//! Check Network Frame from sever, use in round 1 not pre-round
+//!
+//!
+//! \param reset = 0: counter =0, send frame finished signals
+//!              = 1: auto devide frame.
+//!
+//! \return None
+//
+//*****************************************************************************
 void CheckNetworkFrame(uint8_t reset)
 {
 	static uint8_t ByteCount = 0;	//Used for split Network frame

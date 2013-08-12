@@ -1,19 +1,41 @@
-/*
- * define.h
- *
- *  Created on: Aug 2, 2013
- *      Author: Admin
- */
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// define.h - Prototypes for the library.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 
 #ifndef DEFINE_H_
 #define DEFINE_H_
 
+
+//*****************************************************************************
+//
+// Type of wall follow.
+//
+//*****************************************************************************
 #define FOLLOW_LEFT			0x01
 #define FOLLOW_RIGHT		0x02
 #define FOLLOW_DISABLE		0x04
 #define FOLLOW_AUTO_SELECT	0x08
 
-#define DEFAULT		20000	//H-Bridge Freq (Hz)
+//*****************************************************************************
+//
+// H-Bridge default Frequency: 20 000  (Hz).
+// Recommend you NOT TO CHANGE this value.
+//
+//*****************************************************************************
+#define DEFAULT		20000
+
+//*****************************************************************************
+//
+// Type of Stage of the robot.
+//
+//*****************************************************************************
 
 #define IDLE		0x00
 #define STOP		0x01
@@ -21,6 +43,11 @@
 #define TURNLEFT	0x04
 #define STRAIGHT	0x08
 
+//*****************************************************************************
+//
+// Type of Available direction
+//
+//*****************************************************************************
 #define AVAIL_LEFT		0x01
 #define AVAIL_FL		0x02
 #define AVAIL_FR		0x04
@@ -32,6 +59,11 @@
 #define BACK		0x40
 #define FORWARD		0x80
 
+//*****************************************************************************
+//
+// Enable port base, enable pin
+//
+//*****************************************************************************
 #define ENAPORT_PERIPHERAL	SYSCTL_PERIPH_GPIOB
 #define ENABLE_PORT			GPIO_PORTB_BASE
 #define ENA_LEFT_PIN		GPIO_PIN_5

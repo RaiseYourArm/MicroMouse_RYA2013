@@ -1,3 +1,13 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// include.h - include file of library.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 #ifndef INCLUDE_H_
 #define INCLUDE_H_
 
@@ -23,3 +33,4 @@
 #include "EEPROM.h"
 
 #endif /* INCLUDE_H_ */
+

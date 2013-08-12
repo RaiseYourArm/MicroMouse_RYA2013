@@ -1,6 +1,21 @@
+//*****************************************************************************
+//
+// Raise Your Arm 2013_ Micro Mouse robot.
+//
+// SystemConfig.h - Prototypes for the SystemConfig functions.
+//
+// This is part of revision 1.2 of the RYA Micro Mouse Library.
+//      Happy coding.
+//           Support Team RYA!
+//*****************************************************************************
 #ifndef SYSTEMCONFIG_H_
 #define SYSTEMCONFIG_H_
 
+//*****************************************************************************
+//
+// Prototypes for the APIs.
+//
+//*****************************************************************************
 void ConfigPIDTimer(uint32_t TimerIntervalms, uint32_t PIDVerlocityLoop);
 void ConfigADCTimer(void);
 void ConfigSystem(void);
