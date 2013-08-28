@@ -29,6 +29,7 @@ extern uint8_t FollowSel;
 int8_t Direction;
 extern void (*v_USRBT1)(void), (*v_USRBT2)(void);
 extern uint32_t PIDVerLoop;
+extern eDirection e_Direction;
 
 int32_t ADCResOn[4], ADCResOff[4], ADCResDelta[4];
 int32_t MaxIRBase[4];
@@ -250,7 +251,7 @@ void ADCIsr(void)
 	uint8_t temp;
 	static uint8_t DirectionTemp;
 	ADCIntClear(ADC0_BASE, 2);
-	ADCSequenceDataGet(ADC0_BASE, 2, &ADCResult[0]);
+	ADCSequenceDataGet(ADC0_BASE, 2, (uint32_t *)&ADCResult[0]);
 	switch (ADCStatus)
 	{
 		case 1:
@@ -391,7 +392,8 @@ void TimerTickBatt(void)
 uint8_t CalcPosition(uint8_t Direction, int8_t Delta)
 {
 	static int8_t DeltaTemp = 0, DirTemp = 0, x_temp, y_temp;
-	if ((DeltaTemp != Delta) || (DirTemp != Direction) || (x_temp != x) || (y_temp |= y))
+
+	if ((DeltaTemp != Delta) || (DirTemp != Direction) || (x_temp != x) || (y_temp != y))
 	{
 		DeltaTemp = Delta;
 		DirTemp = Direction;
@@ -399,20 +401,22 @@ uint8_t CalcPosition(uint8_t Direction, int8_t Delta)
 		y_temp = y;
 		switch (Direction)
 		{
-			case 0:
+			case D_UP:
 				y = BasePoint[1] + Delta;
 				break;
-			case 1:
+			case D_RIGHT:
 				x = BasePoint[0] + Delta;
 				break;
-			case 2:
+			case D_DOWN:
 				y = BasePoint[1] - Delta;
 				break;
-			case 3:
+			case D_LEFT:
 				x = BasePoint[0] - Delta;
 				break;
 		}
+		UpdateMap(x, y, Direction);
 	}
 	return (0);
 }
+
 
