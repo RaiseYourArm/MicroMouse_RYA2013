@@ -70,10 +70,18 @@
 #define ENA_RIGHT_PIN		GPIO_PIN_7
 #define BOOST_EN_PIN		GPIO_PIN_2
 
-#define IS_WALL		0x80
-#define HAS_GONE	0x40
-
 #define INVALID_ADDRESS			0x00000200
 #define INVALID_NUM_OF_WORDS	0x00000400
+
+//*****************************************************************************
+//
+// Type of Update Map
+//
+//*****************************************************************************
+#define IS_NORTH_WALL		0x8000
+#define IS_SOUTH_WALL		0x4000
+#define IS_WEST_WALL		0x2000
+#define IS_EAST_WALL		0x1000
+#define HAS_GONE			0x0800
 
 #endif /* DEFINE_H_ */
